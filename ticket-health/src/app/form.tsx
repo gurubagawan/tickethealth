@@ -10,6 +10,8 @@ import {
   Option,
 } from "@material-tailwind/react";
 
+import { submitForm } from "@/app/api/submitForm";
+
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     feeling: '',
@@ -33,6 +35,20 @@ const FormComponent = () => {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     console.log('Submitted:', formData);
+    submitForm(formData)
+      .then(response => {
+        console.log('Form submitted successfully:', response);
+        // Reset form or show success message
+        setFormData({
+          feeling: '',
+          stress: '',
+          comments: '',
+        });
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+        // Show error message
+      });
   };
 
 
@@ -41,10 +57,12 @@ const FormComponent = () => {
       <Input
         size="lg"
         name="feeling"
+        placeholder="How are you feeling?"
         value={formData.feeling}
         onChange={handleChange}
+        className="bg-white text-black"
         labelProps={{
-          className: "before:content-none after:content-none",
+          className: "before:content-none after:content-none bg-white",
         }}
       />
 
@@ -56,18 +74,18 @@ const FormComponent = () => {
         name="comments"
         value={formData.comments}
         onChange={handleChange}
+        className="bg-white"
+
       />
 
-    <div className="w-72">
 
-      <Select value={formData.stress} >
+      <Select className="bg-white" value={formData.stress} >
         {stressOptions.map((option) => (
-          <Option key={option.value} value={option.value}>
+          <Option className="bg-white" key={option.value} value={option.value}>
             {option.label}
           </Option>
         ))}
       </Select>
-        </div>
 
 
       <Button type="submit" className="mt-6" fullWidth>

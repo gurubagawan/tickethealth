@@ -11,7 +11,6 @@ RSpec.describe Submission, type: :model do
     expect(submission).to be_valid
   end
 
-
   it "is invalid without a hashed_email" do
     submission = Submission.new(feeling: "Happy", stress: "3", comments: "All good", hashed_email: nil)
     expect(submission).not_to be_valid

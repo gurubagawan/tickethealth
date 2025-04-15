@@ -15,3 +15,8 @@ OR:
 - navigate to ticket-backend and run  `bin/rails server -p 3000`
 - navigate to the ticket-health and run `yarn dev`
 - go to 'http://localhost:3001/` to interact with app 
+
+
+To run tests
+- navigate into ticket-health and run `yarn test` 
+- navigate into ticket-backend and run `rspec` 

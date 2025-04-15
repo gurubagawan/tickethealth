@@ -58,8 +58,7 @@ const FormComponent = () => {
 
     setFormData(newData);
 
-    // If touched or submitted, validate live
-    if ((touched[name as keyof typeof touched] || isSubmitted) && !validate(newData)[name]) {
+    if ((touched[name as keyof typeof touched] || isSubmitted) && !validate(newData)[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
@@ -93,14 +92,13 @@ const FormComponent = () => {
       return;
     }
 
-    // Submit logic
     submitForm(formData)
       .then((res) => {
-        console.log("Submitted:", res);
         setFormData({ feeling: "", stress: "", comments: "" });
         setErrors({});
         setTouched({});
         setIsSubmitted(false);
+        alert("Form submitted successfully!");
       })
       .catch((err) => {
         console.error("Submission failed:", err);
@@ -108,11 +106,12 @@ const FormComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="w-full" onSubmit={handleSubmit}>
       <Input
         size="lg"
         name="feeling"
         placeholder="How are you feeling?"
+        data-testid="feeling-input"
         value={formData.feeling}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -129,6 +128,7 @@ const FormComponent = () => {
       <Textarea
         name="comments"
         placeholder="Any additional comments?"
+        data-testid="comments-input"
         value={formData.comments}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -140,6 +140,7 @@ const FormComponent = () => {
       )}
 
       <Select
+        data-testid="stress-select"
         variant="outlined"
         label="Stress level"
         value={formData.stress}

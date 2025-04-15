@@ -48,6 +48,7 @@ describe("Form Tests", () => {
     const submitButton = screen.getByText(/Submit/i);
     fireEvent.click(submitButton);
 
+    expect(screen.getByText(/Please enter your email./i)).toBeInTheDocument();
     expect(screen.getByText(/Please enter how you're feeling./i)).toBeInTheDocument();
     expect(screen.getByText(/Please select a stress level./i)).toBeInTheDocument();
     expect(screen.getByText(/Please enter your comments./i)).toBeInTheDocument();
@@ -63,6 +64,7 @@ describe("Form Tests", () => {
     const submitButton = screen.getByText(/Submit/i);
     fireEvent.click(submitButton);
 
+
     expect(screen.queryByText(/Please enter how you're feeling./i)).not.toBeInTheDocument();
     expect(screen.getByText(/Please select a stress level./i)).toBeInTheDocument();
     expect(screen.queryByText(/Please enter your comments./i)).not.toBeInTheDocument();
@@ -77,12 +79,15 @@ describe("Form Tests", () => {
     const feelingInput = screen.getByTestId("feeling-input");
     const commentInput = screen.getByTestId("comments-input");
     const stressSelect = screen.getByTestId("stress-select");
+    const emailInput = screen.getByTestId("email-input");
 
+    fireEvent.change(emailInput, {target: {value: "guru@email.com"}})
     fireEvent.change(feelingInput, { target: { value: "I'm good" } });
     fireEvent.change(commentInput, { target: { value: "Test comment" } });
     await user.click(stressSelect);
     await user.click(screen.getByText("Very Stressed"));
 
+    expect(screen.queryByText(/Please enter your email./i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Please enter how you're feeling./i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Please select a stress level./i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Please enter your comments./i)).not.toBeInTheDocument();
@@ -97,7 +102,9 @@ describe("Form Tests", () => {
     const feelingInput = screen.getByTestId("feeling-input");
     const commentInput = screen.getByTestId("comments-input");
     const stressSelect = screen.getByTestId("stress-select");
+    const emailInput = screen.getByTestId("email-input");
 
+    fireEvent.change(emailInput, {target: {value: "guru@email.com"}})
     fireEvent.change(feelingInput, { target: { value: "Happy" } });
     fireEvent.change(commentInput, { target: { value: "Everything is good" } });
     await user.click(stressSelect);

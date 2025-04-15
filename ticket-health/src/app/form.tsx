@@ -12,18 +12,21 @@ import { submitForm } from "@/app/api/submitForm";
 
 const FormComponent = () => {
   const [formData, setFormData] = useState({
+    email: "",
     feeling: "",
     stress: "",
     comments: "",
   });
 
   const [errors, setErrors] = useState<{
+    email?: string;
     feeling?: string;
     stress?: string;
     comments?: string;
   }>({});
 
   const [touched, setTouched] = useState<{
+    email?: boolean;
     feeling?: boolean;
     stress?: boolean;
     comments?: boolean;
@@ -42,6 +45,10 @@ const FormComponent = () => {
   const validate = (data = formData) => {
     const newErrors: typeof errors = {};
 
+
+
+    if (!data.email.trim())
+      newErrors.email = "Please enter your email.";
     if (!data.feeling.trim())
       newErrors.feeling = "Please enter how you're feeling.";
     if (!data.stress.trim())
@@ -94,7 +101,7 @@ const FormComponent = () => {
 
     submitForm(formData)
       .then((res) => {
-        setFormData({ feeling: "", stress: "", comments: "" });
+        setFormData({ feeling: "", stress: "", comments: "", email: "" });
         setErrors({});
         setTouched({});
         setIsSubmitted(false);
@@ -108,6 +115,24 @@ const FormComponent = () => {
   return (
     <form className="w-full" onSubmit={handleSubmit}>
     {/* Tailwind material ui wants all props here so disabling that check */}
+    {/* @ts-ignore */}
+        <Input
+        name="email"
+        placeholder="What's your email?"
+        data-testid="email-input"
+        value={formData.email}
+        type="email"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={!!errors.feeling}
+        className="bg-white text-black w-full p-2 mb-2"
+        labelProps={{
+          className: "before:content-none after:content-none",
+        }}
+      />
+      {errors.feeling && (
+        <p className="text-red-500 text-sm mb-2">{errors.email}</p>
+      )}
     {/* @ts-ignore */}
       <Input
         size="lg"

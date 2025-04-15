@@ -1,3 +1,5 @@
+require 'digest'
+
 class Api::SubmissionsController < ApplicationController
   skip_before_action :verify_authenticity_token
   def create
@@ -12,7 +14,9 @@ class Api::SubmissionsController < ApplicationController
 
   private
 
-    def submission_params
-      params.require(:submission).permit(:feeling, :stress, :comments)
-    end
+  def submission_params
+    clean = params.require(:submission).permit(:feeling, :stress, :comments)
+    clean[:hashed_email] = Digest::SHA256.hexdigest(params[:submission][:email].downcase.strip)
+    clean
+  end
 end

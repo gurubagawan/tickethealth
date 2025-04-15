@@ -20,3 +20,7 @@ OR:
 To run tests
 - navigate into ticket-health and run `yarn test` 
 - navigate into ticket-backend and run `rspec` 
+
+
+HIPAA compliance: 
+User submissions are stored with a hashed value for email. By keeping this value as a hash, it ensures that any data leaks won't be able to be traced back to intial submission.

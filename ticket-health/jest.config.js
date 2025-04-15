@@ -1,9 +1,16 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jest-environment-jsdom',  // Ensure this is correctly set
+  testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(ts|tsx|js|jsx)$': ['babel-jest', { configFile: './babel.config.test.js' }],    
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(react|react-dom|@material-tailwind/react)/)',
+  ],
+  moduleNameMapper: {
+    '^react$': require.resolve('react'),
+    '^react-dom$': require.resolve('react-dom'),
+    '^react/jsx-runtime$': require.resolve('react/jsx-runtime'),
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
 };

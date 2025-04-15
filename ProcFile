@@ -1,0 +1,2 @@
+web: cd ticket-backend && bin/rails server -p 3000
+client: cd ticket-health && yarn dev

@@ -73,8 +73,8 @@ const FormComponent = () => {
     }
   };
 
-  const handleSelectChange = (value: string) => {
-    const newData = { ...formData, stress: value };
+  const handleSelectChange = (value: string | undefined) => {
+    const newData = { ...formData, stress: value || "" };
     setFormData(newData);
 
     if ((touched.stress || isSubmitted) && !validate(newData).stress) {
@@ -107,6 +107,8 @@ const FormComponent = () => {
 
   return (
     <form className="w-full" onSubmit={handleSubmit}>
+    {/* Tailwind material ui wants all props here so disabling that check */}
+    {/* @ts-ignore */}
       <Input
         size="lg"
         name="feeling"
@@ -124,7 +126,7 @@ const FormComponent = () => {
       {errors.feeling && (
         <p className="text-red-500 text-sm mb-2">{errors.feeling}</p>
       )}
-
+      {/* @ts-ignore */}
       <Textarea
         name="comments"
         placeholder="Any additional comments?"
@@ -138,7 +140,7 @@ const FormComponent = () => {
       {errors.comments && (
         <p className="text-red-500 text-sm mb-2">{errors.comments}</p>
       )}
-
+      {/* @ts-ignore */}
       <Select
         data-testid="stress-select"
         variant="outlined"
@@ -164,7 +166,7 @@ const FormComponent = () => {
       {errors.stress && (
         <p className="text-red-500 text-sm mb-4">{errors.stress}</p>
       )}
-
+      {/* @ts-ignore */}
       <Button
         type="submit"
         color="blue"
